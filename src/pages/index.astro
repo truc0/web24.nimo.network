@@ -4,62 +4,81 @@ import Hero from '../components/Hero.astro'
 import Feature from '../components/Feature.astro'
 import Counter from '../components/Counter.astro'
 import ContentMedia from '../components/ContentMedia.astro'
+
+interface IScheduleItem {
+  content: string
+  time: string
+  note: string
+}
+
+const schedules: [string, IScheduleItem[]][] = [
+  ['Web 基础', [
+    { content: 'HTML & CSS 基础', time: 'April 3rd', note: '' },
+    { content: '网站部署实践', time: 'April 13th', note: '' },
+  ]],
+  ['JS 前端框架', [
+    { content: 'Javascript 语法基础及 DOM 操作', time: 'April 20th', note: '春游，时间会调整' },
+    { content: 'Vue.js 基础', time: 'April 27th', note: '' },
+  ]],
+  ['后端应用开发', [
+    { content: '后端基本组件及 Django 基础 I', time: 'May 4th', note: '' },
+    { content: 'Django 基础 II', time: 'May 11th', note: '' },
+  ]],
+]
 ---
 
 <DefaultLayout title="Home">
   <Hero />
   <section class="my-64">
     <div class="container">
-      <h2 class="mb-16 text-6xl">Features</h2>
+      <h2 class="mb-16 text-6xl" id="features">课程内容</h2>
       <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-        <Feature icon="mdi:tailwind" title="Tailwind CSS">
-          Use the power of Tailwind to greatly improve your productivity and enhance your developer workflow.
-        </Feature>
-        <Feature icon="mdi:wheelchair-accessibility" title="a11y Components">
-          17 components and counting, all tried and tested for the most optimal accessible experience for your visitors.
-        </Feature>
-        <Feature icon="mdi:looks" title="Prettier">
-          Less worry about formatting your code, let the Astro Prettier integration do the heavy lifting.
-        </Feature>
-        <Feature icon="mdi:eslint" title="ESLint">
-          Lint your code with strict a11y settings to ensure you stay on track with the WCAG standards.
-        </Feature>
-        <Feature icon="mdi:book-open-page-variant" title="Blog">
-          This theme comes with a fully integrated blog, dynamic pages and SEO optimization.
-        </Feature>
-        <Feature icon="mdi:language-markdown" title="Markdown & MDX">
-          Easily use .md and .mdx pages to build your websites or use it with Netlify CMS.
-        </Feature>
-        <Feature icon="mdi:theme-light-dark" title="Dark mode">
-          Fully integrated Dark mode gives your users the choice for their favorite viewing mode.
-        </Feature>
-        <Feature icon="mdi:cog" title="Design System">
-          The theme offers some very handy utilities to help you build your website faster.
-        </Feature>
-        <Feature icon="mdi:lighthouse" title="Lighthouse Scores">
-          Excellent lighthouse scores means your website will load faster and get better SEO rankings.
+        <Feature icon="mdi:language-html5" title="Web 基础">用 HTML 和 CSS 搭建炫酷的网页，你也可以！</Feature>
+        <Feature icon="mdi:vuejs" title="JS 前端框架">哎哎，你这网页怎么会动！一起飞向前端的大坑！</Feature>
+        <Feature icon="mdi:server-network-outline" title="后端应用开发">
+          好看的前端背后未必是有趣的灵魂，也有可能是凶猛的蟒蛇！高并发、分布式...真正的考验才刚刚开始...
         </Feature>
       </div>
     </div>
   </section>
-  <ContentMedia imgSrc="/accessible-components.webp">
-    <h2>Accessible Components</h2>
-    <p class="text-2xl">
-      This theme provides plenty of tried and tested Accessible Astro Components. Some are native to this theme and a
-      lot of others are integrated using a <a href="https://github.com/markteekman/accessible-astro-components"
-        >separate package</a
-      >. They'll get you up and running in building an accessible solution for your visitors.
-    </p>
-  </ContentMedia>
-  <ContentMedia imgSrc="/wcag-compliant.webp" reverseImg={true}>
-    <h2>WCAG 2.1 AA Compliant</h2>
-    <p class="text-2xl">
-      Using semantic HTML, landmarks, skip links, screen reader friendly content, aria-labels, keyboard accessible
-      navigation and components, clear outlines and tab indicators and the right color contrast, you're more certain of
-      reaching WCAG AA compliance.
-    </p>
-  </ContentMedia>
-  <section class="mb-32 mt-64">
+
+  <section class="my-64">
+    <div class="container">
+      <h2 class="mb-16 text-6xl" id="syllabus">课程大纲</h2>
+      <!-- table element with 4 columns and header line -->
+      <div class="rounded-lg dark:bg-neutral-800 dark:text-neutral-200">
+        <table class="table-auto border-collapse rounded-lg bg-neutral-100 dark:bg-neutral-800">
+          <thead class="text-left text-lg text-neutral-400 dark:text-neutral-200">
+            <tr>
+              {
+                ['章节', '内容', '时间', '备注'].map((item) => (
+                  <th class="border-b p-4 pb-3 pl-4 pt-4 font-bold dark:border-neutral-600">{item}</th>
+                ))
+              }
+            </tr>
+          </thead>
+
+          <tbody>
+            {schedules.map(([chapter, chapterSchedules], chIndex) => (
+              chapterSchedules.map(({ content, time, note }, index) => (
+                <tr class={`${
+                  index === chapterSchedules.length - 1
+                  && chIndex !== schedules.length - 1
+                  && 'border-b border-b-neutral-200 dark:border-b-neutral-700'
+                }`}>
+                  {index === 0 && <td class="p-4" rowspan={chapterSchedules.length}>{chapter}</td>}
+                  <td class="p-4">{content}</td>
+                  <td class="p-4">{time || '待定'}</td>
+                  <td class="p-4">{note || '无'}</td>
+                </tr>
+              )
+            )))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <!-- <section class="mb-32 mt-64">
     <div class="container">
       <h2 class="mb-16 text-6xl">Counters</h2>
       <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
@@ -69,5 +88,5 @@ import ContentMedia from '../components/ContentMedia.astro'
         <Counter count="18+" title="Months" sub="Since launch" />
       </div>
     </div>
-  </section>
+  </section> -->
 </DefaultLayout>

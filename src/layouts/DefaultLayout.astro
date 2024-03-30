@@ -6,15 +6,15 @@ import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 
 const {
-  title = 'Astro',
-  description = 'A starter project with accessibility features using Astro static site builder. Contains accessible landmarks, skip links, a dark mode color scheme, better focus outline and keyboard menu navigation.',
+  title = 'NIMO2401-Intro to Web Dev',
+  description = 'Docs and slides for NIMO2401 course',
   url,
   image = '/social-preview-image.png',
-  author = 'Mark Teekman',
+  author = 'truc0',
 } = Astro.props
 ---
 
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,18 +28,21 @@ const {
       description={description.substring(0, 100)}
       url={Astro.site
         ? `${Astro.site}/${title.toLowerCase().replaceAll(' ', '-')}`
-        : `https://accessible-astro.dev/${title.toLowerCase().replaceAll(' ', '-')}`}
+        : `https://web24.nimo.network/${title.toLowerCase().replaceAll(' ', '-')}`}
       image={image}
       author={author}
     />
   </head>
-  <body>
+  <body class="scroll-smooth">
     <Header />
     <main id="main-content" transition:animate="fade">
       <slot />
     </main>
     <Footer />
     <style lang="scss" is:global>
+      .scroll-smooth {
+        scroll-behavior: smooth;
+      }
       // theme settings
       :root {
         --radius-small: 3px;

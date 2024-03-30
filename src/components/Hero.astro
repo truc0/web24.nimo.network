@@ -1,7 +1,7 @@
 ---
 import { Icon } from 'astro-icon/components'
 
-const { src = '/astronaut-hero-img.webp' } = Astro.props
+const { src = '/cat.jpg' } = Astro.props
 ---
 
 <section class="hero my-24">
@@ -9,23 +9,23 @@ const { src = '/astronaut-hero-img.webp' } = Astro.props
     <div class="grid grid-cols-1 items-center gap-24 lg:grid-cols-2">
       <div class="flex flex-col items-center gap-8 md:items-start">
         <h1 class="text-center text-6xl md:text-left lg:text-8xl">
-          <slot><span class="text-gradient">Accessible</span> Starter for Astro</slot>
+          <slot><span class="text-gradient">NIMO2401</span> Intro to Web Dev</slot>
         </h1>
         <div class="flex flex-col gap-3 min-[500px]:flex-row">
-          <a class="button has-icon" href="https://github.com/markteekman/accessible-astro-starter">
+          <a class="button has-icon" href="#syllabus">
             <Icon name="ion:star-outline" />
-            Star on GitHub
+            查看课程大纲
           </a>
-          <a
+          <!-- <a
             class="button has-icon color-secondary"
             href="https://github.com/markteekman/accessible-astro-starter/blob/main/README.md"
           >
             <Icon name="ion:bookmark-outline" />
-            Read the Docs
-          </a>
+            查看课程安排
+          </a> -->
         </div>
       </div>
-      <img class="hidden lg:block" src={src} alt="" decoding="async" />
+      <img class="hidden lg:block cliped-cat" src={src} alt="" decoding="async" />
     </div>
   </div>
 </section>
@@ -43,5 +43,9 @@ const { src = '/astronaut-hero-img.webp' } = Astro.props
     background-clip: border-box;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  .cliped-cat {
+    clip-path: path("M 259.948 333.13 C 278.47 343.901 294.767 344.645 311.398 333.13 C 335.929 316.149 335.929 272.619 311.398 255.637 C 294.767 244.123 276.581 244.123 259.948 255.637 C 235.417 272.619 241.424 322.362 259.948 333.13 Z M 228.047 85.413 C 189.974 85.413 159.103 -11.214 112.795 25.52 C 88.357 44.907 122.724 117.306 108.68 131.646 C 95.376 145.231 55.171 116.937 38.706 172.627 C 22.242 228.318 81.925 238.3 81.925 260.891 C 81.925 283.485 4.014 277.876 9.894 327.088 C 15.038 370.171 106.697 346.08 120 359.663 C 135.435 385.931 35.619 465.779 93.245 491.007 C 140.58 511.733 171.451 404.844 218.786 404.844 C 239.905 404.844 250.685 507.819 304.195 500.463 C 346.361 494.668 324.775 404.844 351.532 385.931 C 378.285 367.019 479.132 431.114 503.829 385.931 C 531.479 335.342 413.273 296.617 413.273 260.891 C 407.099 222.012 510.002 175.779 479.132 121.14 C 452.375 85.413 377.256 139.002 343.299 131.646 C 311.398 113.785 331.981 25.52 289.789 17.114 C 252.746 3.456 249.638 85.413 228.047 85.413 Z M 212.611 208.352 C 195.894 182.746 152.152 182.746 135.435 208.352 C 124.288 225.424 124.288 243.82 135.435 260.891 C 152.152 286.498 195.894 286.498 212.611 260.891 C 223.758 243.82 223.758 225.424 212.611 208.352 Z");
   }
 </style>
