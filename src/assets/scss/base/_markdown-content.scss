@@ -1,5 +1,6 @@
 .markdown-content {
   @apply prose lg:prose-lg;
+  @apply dark:prose-invert;
 
   ul, ol {
     @apply list-disc;
