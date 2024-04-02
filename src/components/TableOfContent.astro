@@ -9,6 +9,7 @@ interface IProps {
 
 const { headings } = Astro.props as IProps
 
+// Reference: https://kld.dev/building-table-of-contents/
 const buildToc = (headings: MarkdownHeading[], maxDepth: number = 6) => {
   const toc: HeadingObject[] = []
   const parentHeadings = new Map<number, HeadingObject>()
