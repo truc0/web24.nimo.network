@@ -1,0 +1,55 @@
+---
+import type { MarkdownHeading } from 'astro'
+import type { HeadingObject } from '../types'
+import TableOfContentHeading from './TableOfContentHeading.astro'
+
+interface IProps {
+  headings: MarkdownHeading[]
+}
+
+const { headings } = Astro.props as IProps
+
+const buildToc = (headings: MarkdownHeading[], maxDepth: number = 6) => {
+  const toc: HeadingObject[] = []
+  const parentHeadings = new Map<number, HeadingObject>()
+  headings.forEach((h) => {
+    if (h.depth > maxDepth) {
+      return
+    }
+
+    const heading = { ...h, subheadings: [] }
+    parentHeadings.set(heading.depth, heading)
+    if (heading.depth === 2) {
+      toc.push(heading)
+    } else {
+      parentHeadings.get(heading.depth - 1)!.subheadings.push(heading)
+    }
+  })
+
+  return toc
+}
+
+const toc = buildToc(headings)
+---
+
+<div class="py-2 px-2 bg-purple-100 text-purple-700 font-semibold">目录</div>
+<nav class="toc">
+  <ul>
+    {toc.map(heading => <TableOfContentHeading heading={heading} />)}
+  </ul>
+</nav>
+
+<style lang="scss" is:global>
+  .toc {
+    @apply p-2;
+    @apply text-sm;
+
+    ul {
+      @apply list-disc;
+
+      ul {
+        @apply m-0;
+      }
+    }
+  }
+</style>

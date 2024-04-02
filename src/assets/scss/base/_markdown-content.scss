@@ -1,5 +1,5 @@
 .markdown-content {
-  @apply prose-lg;
+  @apply prose lg:prose-lg;
 
   ul, ol {
     @apply list-disc;

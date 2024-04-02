@@ -1,0 +1,22 @@
+---
+import type { HeadingObject } from '../types'
+
+interface IProps {
+  heading: HeadingObject
+}
+
+const { heading } = Astro.props as IProps
+---
+
+<li>
+  <a href={`#${heading.slug}`}>{heading.text}</a>
+  {
+    heading.subheadings.length > 0 && (
+      <ul>
+        {heading.subheadings.map((h) => (
+          <Astro.self heading={h} />
+        ))}
+      </ul>
+    )
+  }
+</li>

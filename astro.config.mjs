@@ -2,6 +2,7 @@ import { defineConfig, passthroughImageService } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import tailwind from '@astrojs/tailwind'
 import icon from 'astro-icon'
+import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 
 import compress from 'astro-compress'
 
@@ -21,5 +22,9 @@ export default defineConfig({
   ],
   image: {
     service: passthroughImageService(),
-  }
+  },
+  markdown: {
+    remarkPlugins: [],
+    rehypePlugins: [rehypeHeadingIds],
+  },
 })

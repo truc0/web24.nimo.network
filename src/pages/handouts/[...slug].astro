@@ -2,33 +2,43 @@
 import type { GetStaticPaths } from 'astro'
 import { getCollection } from 'astro:content'
 import DefaultLayout from '../../layouts/DefaultLayout.astro'
+import TableOfContent from '../../components/TableOfContent.astro'
 
 export const getStaticPaths = (async () => {
   const handoutCollection = await getCollection('handout', (handout) => !handout.data.draft)
   const chapterCollection = await getCollection('chapter')
 
   return handoutCollection.map((handout) => {
-    const chapter = chapterCollection.find(ch => ch.id == handout.data.chapter.id)!
+    const chapter = chapterCollection.find((ch) => ch.id == handout.data.chapter.id)!
     return {
       params: {
         slug: `/${chapter.data.slug || chapter.id}/${handout.slug}`,
       },
-      props: { handout }
+      props: { handout },
     }
   })
 }) satisfies GetStaticPaths
 
 const { handout } = Astro.props
-const { Content } = await handout.render()
+const { Content, headings, remarkPluginFrontmatter } = await handout.render()
+const hasToc = remarkPluginFrontmatter.toc
 ---
 
 <DefaultLayout title={handout.data.title}>
   <div class="container">
-    <div class="markdown-content my-12">
-      <div class="headline">
-        <h1 class="">{handout.data.title}</h1>
+    <div class="flex gap-4 justify-center w-full my-12 relative">
+      <div class="markdown-content w-full max-w-full flex-1">
+        <div class="headline">
+          <h1>{handout.data.title}</h1>
+        </div>
+        <Content />
       </div>
-      <Content />
+
+      {hasToc && <div class="sticky top-10 flex-0 hidden md:block">
+        <div class="min-w-40 rounded bg-purple-50 overflow-hidden">
+          <TableOfContent headings={headings} />
+        </div>
+      </div>}
     </div>
   </div>
 </DefaultLayout>
