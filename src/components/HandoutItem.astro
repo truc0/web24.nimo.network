@@ -1,0 +1,73 @@
+---
+import { Icon } from 'astro-icon/components'
+
+const { icon = 'mdi:rocket', title = 'Title', href = '' } = Astro.props
+---
+
+<a class="handout-item flex cursor-pointer flex-col gap-4 !no-underline visited:no-underline
+          !text-[var(--font-color)] bg-[var(--background)]
+          hover:translate-x-1 hover:translate-y-1 transition-transform" href={href}>
+  <Icon name={icon} />
+  <div class="content">
+    <h3>{title}</h3>
+    <p>
+      <slot />
+    </p>
+  </div>
+</a>
+
+<style lang="scss">
+  @use '../assets/scss/base/breakpoint' as *;
+
+  .handout-item {
+    position: relative;
+    width: calc(100% - 0.5rem);
+    padding: 2rem;
+
+    > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @include breakpoint(large) {
+      width: 100%;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+    }
+
+    &::before {
+      inset: 0;
+      background-color: var(--neutral-100);
+      border: 3px solid var(--neutral-700);
+      border-radius: 1rem;
+      box-shadow: 0 0 0 6px var(--neutral-100);
+      z-index: 1;
+    }
+
+    &::after {
+      background-color: var(--action-color);
+      inset: 1rem -0.85rem -0.85rem 1rem;
+      border-radius: 1rem;
+      z-index: 0;
+    }
+
+    &:hover::after {
+      @apply -translate-x-1 -translate-y-1;
+    }
+  }
+
+  :global(.handout-item [data-icon]) {
+    height: auto;
+    width: 4rem;
+    color: var(--action-color);
+  }
+
+  :global(.darkmode .handout-item::before) {
+    background-color: var(--dark-100);
+    box-shadow: 0 0 0 6px var(--dark-100);
+  }
+</style>

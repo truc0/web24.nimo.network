@@ -1,0 +1,35 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection } from 'astro:content'
+import DefaultLayout from '../../layouts/DefaultLayout.astro'
+
+export const getStaticPaths = (async () => {
+  const handoutCollection = await getCollection('handout', (handout) => !handout.data.draft)
+  const chapterCollection = await getCollection('chapter')
+
+  return handoutCollection.map((handout) => {
+    const chapter = chapterCollection.find(ch => ch.id == handout.data.chapter.id)!
+    return {
+      params: {
+        slug: `/${chapter.data.slug || chapter.id}/${handout.slug}`,
+      },
+      props: { handout }
+    }
+  })
+}) satisfies GetStaticPaths
+
+const { handout } = Astro.props
+const { Content } = await handout.render()
+---
+
+<DefaultLayout title={handout.data.title}>
+  <div class="container">
+    <!-- <div class="space-content my-12"> -->
+    <div class="prose-lg my-12">
+      <div class="headline">
+        <h1 class="">{handout.data.title}</h1>
+      </div>
+      <Content />
+    </div>
+  </div>
+</DefaultLayout>

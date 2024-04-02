@@ -8,7 +8,6 @@ import Footer from '../components/Footer.astro'
 const {
   title = 'NIMO2401-Intro to Web Dev',
   description = 'Docs and slides for NIMO2401 course',
-  url,
   image = '/social-preview-image.png',
   author = 'truc0',
 } = Astro.props
@@ -25,6 +24,7 @@ const {
 
     <SiteMeta
       title={title}
+      subtitle={'NIMO2401'}
       description={description.substring(0, 100)}
       url={Astro.site
         ? `${Astro.site}/${title.toLowerCase().replaceAll(' ', '-')}`

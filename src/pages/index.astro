@@ -1,9 +1,10 @@
 ---
+import { getCollection } from 'astro:content'
 import DefaultLayout from '../layouts/DefaultLayout.astro'
 import Hero from '../components/Hero.astro'
 import Feature from '../components/Feature.astro'
-import Counter from '../components/Counter.astro'
-import ContentMedia from '../components/ContentMedia.astro'
+import SectionContainer from '../components/SectionContainer.astro'
+import HandoutItem from '../components/HandoutItem.astro'
 
 interface IScheduleItem {
   content: string
@@ -12,81 +13,103 @@ interface IScheduleItem {
 }
 
 const schedules: [string, IScheduleItem[]][] = [
-  ['Web 基础', [
-    { content: 'HTML & CSS 基础', time: 'April 3rd', note: '' },
-    { content: '网站部署实践', time: 'April 13th', note: '' },
-  ]],
-  ['JS 前端框架', [
-    { content: 'Javascript 语法基础及 DOM 操作', time: 'April 20th', note: '春游，时间会调整' },
-    { content: 'Vue.js 基础', time: 'April 27th', note: '' },
-  ]],
-  ['后端应用开发', [
-    { content: '后端基本组件及 Django 基础 I', time: 'May 4th', note: '' },
-    { content: 'Django 基础 II', time: 'May 11th', note: '' },
-  ]],
+  [
+    'Web 基础',
+    [
+      { content: 'HTML & CSS 基础', time: 'April 3rd', note: '' },
+      { content: '网站部署实践', time: 'April 13th', note: '' },
+    ],
+  ],
+  [
+    'JS 前端框架',
+    [
+      { content: 'Javascript 语法基础及 DOM 操作', time: 'April 20th', note: '春游，时间会调整' },
+      { content: 'Vue.js 基础', time: 'April 27th', note: '' },
+    ],
+  ],
+  [
+    '后端应用开发',
+    [
+      { content: '后端基本组件及 Django 基础 I', time: 'May 4th', note: '' },
+      { content: 'Django 基础 II', time: 'May 11th', note: '' },
+    ],
+  ],
 ]
+
+const handoutCollection = await getCollection('handout')
+const chapterCollection = await getCollection('chapter')
 ---
 
-<DefaultLayout title="Home">
+<DefaultLayout title="">
   <Hero />
-  <section class="my-64">
-    <div class="container">
-      <h2 class="mb-16 text-6xl" id="features">课程内容</h2>
-      <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-        <Feature icon="mdi:language-html5" title="Web 基础">用 HTML 和 CSS 搭建炫酷的网页，你也可以！</Feature>
-        <Feature icon="mdi:vuejs" title="JS 前端框架">哎哎，你这网页怎么会动！一起飞向前端的大坑！</Feature>
-        <Feature icon="mdi:server-network-outline" title="后端应用开发">
-          好看的前端背后未必是有趣的灵魂，也有可能是凶猛的蟒蛇！高并发、分布式...真正的考验才刚刚开始...
-        </Feature>
-      </div>
+
+  <SectionContainer title="课程内容" id="features">
+    <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+      <Feature icon="mdi:language-html5" title="Web 基础">用 HTML 和 CSS 搭建炫酷的网页，你也可以！</Feature>
+      <Feature icon="mdi:vuejs" title="JS 前端框架">哎哎，你这网页怎么会动！一起飞向前端的大坑！</Feature>
+      <Feature icon="mdi:server-network-outline" title="后端应用开发">
+        好看的前端背后未必是有趣的灵魂，也有可能是凶猛的蟒蛇！高并发、分布式...真正的考验才刚刚开始...
+      </Feature>
     </div>
-  </section>
+  </SectionContainer>
 
-  <section class="my-64">
-    <div class="container">
-      <h2 class="mb-16 text-6xl" id="syllabus">课程大纲</h2>
-      <!-- table element with 4 columns and header line -->
-      <div class="rounded-lg dark:bg-neutral-800 dark:text-neutral-200">
-        <table class="table-auto border-collapse rounded-lg bg-neutral-100 dark:bg-neutral-800">
-          <thead class="text-left text-lg text-neutral-700 dark:text-neutral-200">
-            <tr>
-              {
-                ['章节', '内容', '时间', '备注'].map((item) => (
-                  <th class="border-b p-4 pb-3 pl-4 pt-4 font-bold dark:border-neutral-600">{item}</th>
-                ))
-              }
-            </tr>
-          </thead>
+  <SectionContainer title="课程大纲" id="syllabus">
+    <div class="rounded-lg dark:bg-neutral-800 dark:text-neutral-200">
+      <table class="table-auto border-collapse rounded-lg bg-neutral-100 dark:bg-neutral-800">
+        <thead class="text-left text-lg text-neutral-700 dark:text-neutral-200">
+          <tr>
+            {
+              ['章节', '内容', '时间', '备注'].map((item) => (
+                <th class="border-b p-4 lg:p-6 pb-3 font-bold dark:border-neutral-600">{item}</th>
+              ))
+            }
+          </tr>
+        </thead>
 
-          <tbody>
-            {schedules.map(([chapter, chapterSchedules], chIndex) => (
+        <tbody>
+          {
+            schedules.map(([chapter, chapterSchedules], chIndex) =>
               chapterSchedules.map(({ content, time, note }, index) => (
-                <tr class={`${
-                  index === chapterSchedules.length - 1
-                  && chIndex !== schedules.length - 1
-                  && 'border-b border-b-neutral-200 dark:border-b-neutral-700'
-                }`}>
-                  {index === 0 && <td class="p-4" rowspan={chapterSchedules.length}>{chapter}</td>}
-                  <td class="p-4">{content}</td>
-                  <td class="p-4">{time || '待定'}</td>
-                  <td class="p-4">{note || '无'}</td>
+                <tr
+                  class={`${
+                    index === chapterSchedules.length - 1 &&
+                    chIndex !== schedules.length - 1 &&
+                    'border-b border-b-neutral-200 dark:border-b-neutral-700'
+                  }`}
+                >
+                  {index === 0 && (
+                    <td class="p-4 lg:p-6" rowspan={chapterSchedules.length}>
+                      {chapter}
+                    </td>
+                  )}
+                  <td class="p-4 lg:p-6">{content}</td>
+                  <td class="p-4 lg:p-6">{time || '待定'}</td>
+                  <td class="p-4 lg:p-6">{note || '无'}</td>
                 </tr>
-              )
-            )))}
-          </tbody>
-        </table>
-      </div>
+              ))
+            )
+          }
+        </tbody>
+      </table>
     </div>
-  </section>
-  <!-- <section class="mb-32 mt-64">
-    <div class="container">
-      <h2 class="mb-16 text-6xl">Counters</h2>
-      <div class="grid grid-cols-1 gap-12 sm:grid-cols-2 md:grid-cols-4">
-        <Counter count="520" title="Stars" sub="On GitHub" />
-        <Counter count="17" title="Accessible" sub="Components" />
-        <Counter count="500" title="Commits" sub="Merged" />
-        <Counter count="18+" title="Months" sub="Since launch" />
-      </div>
+  </SectionContainer>
+
+  <SectionContainer title="课程文档" id="handouts">
+    <div>
+      {chapterCollection.map(chapter => (
+        <h3 class="text-5xl mb-8">{chapter.data.name}</h3>
+        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+          {handoutCollection.filter(item => item.data.chapter.id === chapter.id).map(handout => (
+            <HandoutItem
+              title={handout.data.title}
+              thumbnail={handout.data.thumbnail}
+              href={`${chapterCollection.find(ch => ch.id === handout.data.chapter.id)!.data.slug}/${handout.slug}`}
+            >
+            {handout.data.description}
+            </HandoutItem>
+          ))}
+        </div>
+      ))}
     </div>
-  </section> -->
+  </SectionContainer>
 </DefaultLayout>
