@@ -103,7 +103,7 @@ const chapterCollection = await getCollection('chapter')
             <HandoutItem
               title={handout.data.title}
               thumbnail={handout.data.thumbnail}
-              href={`${chapterCollection.find(ch => ch.id === handout.data.chapter.id)!.data.slug}/${handout.slug}`}
+              href={`/handouts/${chapterCollection.find(ch => ch.id === handout.data.chapter.id)!.data.slug}/${handout.slug}`}
             >
             {handout.data.description}
             </HandoutItem>

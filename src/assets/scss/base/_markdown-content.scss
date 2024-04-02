@@ -1,0 +1,7 @@
+.markdown-content {
+  @apply prose-lg;
+
+  ul, ol {
+    @apply list-disc;
+  }
+}

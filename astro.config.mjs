@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config'
+import { defineConfig, passthroughImageService } from 'astro/config'
 import mdx from '@astrojs/mdx'
 import tailwind from '@astrojs/tailwind'
 import icon from 'astro-icon'
@@ -12,11 +12,14 @@ export default defineConfig({
     mdx(),
     icon(),
     tailwind({
-      applyBaseStyles: false,
+      applyBaseStyles: true,
     }),
     compress({
       // SVG compression will remove all lines in SVG :(
       SVG: false,
     }),
   ],
+  image: {
+    service: passthroughImageService(),
+  }
 })
