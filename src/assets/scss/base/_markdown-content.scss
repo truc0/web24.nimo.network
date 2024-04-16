@@ -1,5 +1,5 @@
 .markdown-content {
-  @apply prose lg:prose-lg;
+  @apply prose lg:prose-lg max-w-full;
   @apply dark:prose-invert;
 
   ul, ol {

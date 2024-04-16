@@ -1,0 +1,39 @@
+---
+import { Icon } from 'astro-icon/components'
+
+interface IProps {
+  name: string
+}
+
+const { name } = Astro.props as IProps
+const baseUrl = import.meta.env.SLIDE_BASE
+const isDev = import.meta.env.DEV
+
+const frameSrc = isDev ? baseUrl : `${baseUrl}/${name}`
+---
+
+<div>
+  <div class="flex justify-between text-gray-400 mb-2">
+    <div class="left">点击下方画面后，使用 `←` 或 `→` 进行翻页</div>
+    <div class="right">
+      <a href={frameSrc}
+        target="_blank"
+        class="border-none rounded p-2 flex gap-1 items-center
+              hover:bg-gray-100 transition-all
+                !text-[inherit] !no-underline">
+        <Icon name="mdi:fullscreen" />
+        <span class="text-sm">全屏</span>
+      </a>
+    </div>
+  </div>
+
+  <iframe
+    class="aspect-video w-full rounded"
+    title="CSS Diner"
+    src={frameSrc}
+    loading="lazy"
+    allowtransparency="true"
+    allowfullscreen="true"
+  >
+  </iframe>
+</div>
