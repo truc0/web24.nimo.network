@@ -8,12 +8,22 @@ const chapter = defineCollection({
     })
 })
 
+const tag = defineCollection({
+    type: 'data',
+    schema: z.object({
+        name: z.string(),
+        slug: z.string(),
+        color: z.string().default('cyan'),
+    })
+})
+
 const handout = defineCollection({
     type: 'content',
     schema: z.object({
         title: z.string(),
         description: z.string().optional(),
         chapter: reference('chapter'),
+        tags: z.array(reference('tag')).optional(),
         thumbnail: z.string().optional(),
         draft: z.boolean().optional().default(false),
         // TODO: add avatar and author name later
@@ -22,4 +32,4 @@ const handout = defineCollection({
     })
 })
 
-export const collections = { handout, chapter }
+export const collections = { handout, chapter, tag }

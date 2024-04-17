@@ -1,15 +1,42 @@
 ---
 import { Icon } from 'astro-icon/components'
+import { type InferEntrySchema } from 'astro:content'
 
-const { icon = 'mdi:rocket', title = 'Title', href = '' } = Astro.props
+interface IProps {
+  icon: string
+  title: string
+  href: string
+  tags: Array<{
+    id: string
+    collection: string
+    data: InferEntrySchema<'tag'>
+  }>
+}
+
+const { icon = 'mdi:rocket', title = 'Title', href = '', tags = [] } = Astro.props as IProps
 ---
 
-<a class="handout-item flex cursor-pointer flex-col gap-4 !no-underline visited:no-underline
-          !text-[var(--font-color)] bg-[var(--background)]
-          hover:translate-x-1 hover:translate-y-1 transition-transform" href={href}>
+<a
+  class="handout-item flex cursor-pointer flex-col gap-4 bg-[var(--background)] !text-[var(--font-color)] !no-underline transition-transform visited:no-underline hover:translate-x-1 hover:translate-y-1"
+  href={href}
+>
   <Icon name={icon} />
   <div class="content">
-    <h3>{title}</h3>
+    <div>
+      <h3 class="inline-block">{title}</h3>
+      <div class="tags ml-2 inline-block">
+        {
+          tags.map((tag) => {
+            const { color = 'cyan', name } = tag.data
+            return (
+              <span
+                class={`rounded border p-1 text-xs border-${color}-300 bg-${color}-50 text-${color}-700`}
+              >{name}</span>
+            )
+          })
+        }
+      </div>
+    </div>
     <p>
       <slot />
     </p>

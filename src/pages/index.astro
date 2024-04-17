@@ -38,6 +38,7 @@ const schedules: [string, IScheduleItem[]][] = [
 
 const handoutCollection = await getCollection('handout')
 const chapterCollection = await getCollection('chapter')
+const tagCollection = await getCollection('tag')
 ---
 
 <DefaultLayout title="">
@@ -104,6 +105,7 @@ const chapterCollection = await getCollection('chapter')
               title={handout.data.title}
               thumbnail={handout.data.thumbnail}
               href={`/handouts/${chapterCollection.find(ch => ch.id === handout.data.chapter.id)!.data.slug}/${handout.slug}`}
+              tags={handout.data.tags?.map(item => tagCollection.find(tag => tag.id === item.id)) || []}
             >
             {handout.data.description}
             </HandoutItem>
