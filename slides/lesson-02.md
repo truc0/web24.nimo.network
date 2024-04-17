@@ -112,7 +112,7 @@ sequenceDiagram
   B ->>+ D: Where is nimo.network
   D ->>- B: nimo.network is 202.120.2.1
   
-  S <-> B: Server Verification & Key Discussion
+  S --> B: Server Verification & Key Discussion
   
   B ->>+ S: I want to visit https://nimo.network
   S ->>- B: index.html
