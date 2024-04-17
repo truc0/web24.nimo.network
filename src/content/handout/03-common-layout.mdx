@@ -1,0 +1,203 @@
+---
+title: 常见布局
+chapter: 00-web-basic
+icon: 'mdi:design'
+slug: lab-common-layout
+tags: ['lab']
+toc: true
+---
+
+import { Image } from 'astro:assets'
+import CollapseDetail from '../../components/CollapseDetail.astro'
+
+import ImgCommonLayout from '../../assets/img/handouts/web-basic/03-common-layout/00-common-layout.png';
+import ImgSidebarExample from '../../assets/img/handouts/web-basic/03-common-layout/01-sidebar-example.png';
+
+## 背景
+
+一个完整的网页通常会包含页首（Header）、正文（Content）和页尾（Footer）三个部分，
+部分网站还会使用侧边栏（Sidebar）放置更多内容。
+
+**页首**通常包含有网站的图标、网站的名字、少量的功能按钮（登录、切换暗黑模式等）和导航栏。
+页首部分在同一个网站的不同页面中一般是统一的，通常只有导航栏和登录信息等组件有少量的变化。
+**正文**为页面实际的内容，是网页的主体部分，一般较长且会根据页面的 URL 变化。
+**页尾**是页面最下方的部分，通常包含页面的版权信息（Copyright）、网站拥有者的联系方式和地址。
+页面内容比较多的网站有时也会在页尾加入全站的导航栏，方便用户在浏览完当前页面后快速定位到下一个页面。
+
+## 任务
+
+本次 Lab 的主要任务为利用所学的 CSS 知识实现简单的网页布局。常见的布局样式可以参照下图。
+
+<figure class="text-center" id="fig-common-layout">
+  <Image class="max-h-96 w-auto mx-auto" src={ImgCommonLayout} alt="常见的页面布局" />
+  <figcaption>图1 - 常见布局，来源：[Ant.Design](https://ant.design/components/layout-cn)</figcaption>
+</figure>
+
+### 任务1 - 搭建基本框架
+
+在[图1](#fig-common-layout)中选择一个**带有侧边栏**的布局进行模仿，本任务中不需要在页面中填充内容，用不同的背景颜色标示出不同部分即可。
+本任务完成后的截图应与[图1](#fig-common-layout)中**除第一张子图外**的其中一张子图相同。具体要求如下：
+
+- 页面中共包含页首、正文、页尾、侧边栏四个部分，相邻部分应以**不同**的颜色标示
+- 在页面宽度、高度改变时，整体的布局不变
+- 页首在页面最上方（忽略浏览器导航栏），页尾在页面最下方，页尾与浏览器底部之间**不应**有空白（即页面需要占满整个浏览器窗口）
+- 应使用语义化标签，即：
+  + 页首应使用 `header` 标签
+  + 页尾应使用 `footer` 标签
+  + 正文部分应使用 `main` 标签
+  + 侧边栏应使用 `aside` 标签
+
+<CollapseDetail>
+  <Fragment slot="summary">为什么要使用语义化标签？</Fragment>
+
+  语义化标签是 HTML 5 中引入的特性，通过不同的标签名称标示网站的不同组成部分，方便使用自动化程序进行网站内容处理，应用场景包括
+  爬虫搜索优化、无障碍阅读等。
+</CollapseDetail>
+
+完成该任务需要用到 CSS 布局的相关知识，以下是一些参考资料，建议在开始之前先阅读：
+
+- Flex 布局
+  + [CSS Tricks Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/#aa-flexbox-properties)：读完 _Flexbox Properties_ 和 _Examples_ 两章即可
+  + MDN Flexbox 文档
+    - [Flexbox 简介](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_flexible_box_layout/Basic_concepts_of_flexbox)：读完 _flexbox的两根轴线_ 即可
+    - [元素对齐](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_flexible_box_layout/Aligning_items_in_a_flex_container)
+    - [元素排序](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_flexible_box_layout/Ordering_flex_items)
+    - [弹性布局示例](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_flexible_box_layout/Typical_use_cases_of_flexbox)
+- Grid 布局（可选）
+  + [CSS Tricks Grid](https://css-tricks.com/snippets/css/complete-guide-grid/#aa-grid-properties)：读完 _CSS Grid Properties_ 和 _Examples_ 两章即可
+  + [MDN CSS Grid 文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/CSS_grid_layout/Realizing_common_layouts_using_grids)
+
+### 任务2 - 填入内容
+
+#### 正文
+
+正文部分（`main` 或 `article` 标签）中需要填入一些文字，文字需要标题和正文内容，一个简短的样例如下：
+
+```html
+<h1>What is EPTI4ABOT? </h1>
+<p>
+DFRobot Remeo BLE is used to output PWM signal to control the DFRobot Chebyshev car. Raspberry Pi 4B does not support output PWM signal in 5V, while 5V is the voltage required for the DFRobot Chebyshev car. Therefore, DFRobot Romeo BLE is used to convert the 3.3V PWM signal from Raspberry Pi 4B to 5V PWM signal.
+More detailly, the DFRobot Romeo BLE is connected to Raspberry Pi 4B via Serial port and a tiny program for communication is required and implemented. You may drop DFRobot Romeo BLE if you have other ways to convert the PWM signal. Note that you may need to change the logic of outputing signal in ROS2 controller. include/epti4abot/car_controller.hpp is one of the files you may need to change.
+</p>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Commodo ullamcorper a lacus vestibulum sed arcu non odio euismod. Adipiscing commodo elit at imperdiet dui accumsan sit amet nulla. Fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis. Est placerat in egestas erat imperdiet sed euismod. Est sit amet facilisis magna etiam tempor orci eu. Non pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus. Euismod lacinia at quis risus sed vulputate odio ut. Sit amet volutpat consequat mauris nunc congue nisi. Hendrerit dolor magna eget est lorem ipsum dolor sit.
+Et netus et malesuada fames ac turpis egestas integer eget. Amet est placerat in egestas erat imperdiet sed. Accumsan sit amet nulla facilisi morbi tempus. Sed tempus urna et pharetra pharetra massa massa ultricies mi. Pulvinar sapien et ligula ullamcorper malesuada proin libero. Nulla facilisi nullam vehicula ipsum a arcu cursus vitae. Blandit cursus risus at ultrices mi tempus imperdiet. Viverra adipiscing at in tellus. Lacus viverra vitae congue eu. Vitae congue mauris rhoncus aenean vel elit. Varius vel pharetra vel turpis. Iaculis urna id volutpat lacus laoreet non curabitur. Id consectetur purus ut faucibus pulvinar. Viverra tellus in hac habitasse. Nascetur ridiculus mus mauris vitae ultricies leo integer malesuada nunc. Donec pretium vulputate sapien nec sagittis aliquam. Sem fringilla ut morbi tincidunt augue interdum velit euismod.
+Fusce ut placerat orci nulla pellentesque dignissim enim sit. Quis eleifend quam adipiscing vitae proin sagittis nisl rhoncus. Iaculis urna id volutpat lacus. Sit amet est placerat in. Neque vitae tempus quam pellentesque nec nam aliquam sem et. Lectus mauris ultrices eros in. Sapien nec sagittis aliquam malesuada bibendum arcu vitae elementum curabitur. Varius duis at consectetur lorem donec massa sapien. Mi bibendum neque egestas congue. Eget sit amet tellus cras adipiscing enim eu turpis egestas. Augue interdum velit euismod in. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum. Tempus urna et pharetra pharetra massa massa ultricies. Elementum eu facilisis sed odio morbi quis commodo odio. Feugiat sed lectus vestibulum mattis ullamcorper. Nascetur ridiculus mus mauris vitae ultricies leo integer. Quam nulla porttitor massa id neque aliquam vestibulum morbi. Lacinia quis vel eros donec ac odio tempor orci dapibus. Enim facilisis gravida neque convallis a cras semper.
+Gravida rutrum quisque non tellus orci ac auctor. Diam maecenas ultricies mi eget mauris pharetra et ultrices. Tempor orci dapibus ultrices in iaculis. Volutpat odio facilisis mauris sit. Convallis tellus id interdum velit laoreet id donec. Quam elementum pulvinar etiam non quam lacus. Non consectetur a erat nam. Sed arcu non odio euismod. Potenti nullam ac tortor vitae purus faucibus ornare suspendisse sed. Cursus vitae congue mauris rhoncus aenean vel. Nec dui nunc mattis enim ut tellus. Ante metus dictum at tempor.
+Imperdiet massa tincidunt nunc pulvinar sapien et ligula ullamcorper. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Orci eu lobortis elementum nibh tellus molestie nunc non. Tortor pretium viverra suspendisse potenti nullam ac. Massa tincidunt dui ut ornare lectus sit amet est placerat. Aliquet lectus proin nibh nisl condimentum id. Pretium lectus quam id leo in. Erat velit scelerisque in dictum non consectetur. Accumsan tortor posuere ac ut consequat semper. Est ullamcorper eget nulla facilisi. Consectetur purus ut faucibus pulvinar elementum integer enim neque. Pretium aenean pharetra magna ac placerat vestibulum lectus mauris. Fames ac turpis egestas sed. Et malesuada fames ac turpis egestas integer eget aliquet nibh. Sit amet nisl purus in mollis. Egestas sed tempus urna et pharetra.
+</p>
+```
+
+<CollapseDetail>
+  <Fragment slot="summary">什么是 Lorem ipsum？</Fragment>
+
+  以 `Lorem ipsum` 开头的文字来源于一个经典的文字生成器。
+  这个生成器生成出的无意义段落的字母排布与一般的文章非常相似，因此更能模拟平面设计在填入真实内容后的效果。
+
+  常见的生成网站包括 [loremipsum.io](https://loremipsum.io/) 和 [lipsum.com](https://www.lipsum.com/)。
+</CollapseDetail>
+
+#### 页尾
+
+页尾部分的内容可以相对简单，需要填入的内容为版权信息。版权信息的内容随意，参考如下：
+
+```html
+<div>Copyright © 2024 Apple Inc. All rights reserved.</div>
+```
+
+要求版权信息在垂直、水平两个方向均居中。
+
+#### 页首
+
+页首通常包含网站图标、网站名称、导航栏和少量功能按钮。要求将页首分为左右两个部分，两部分包含的内容如下：
+
+- 左半部分
+  + 网站名称
+- 右半部分
+  + 导航栏，导航栏中需包含至少三个跳转链接
+  + 登录按钮（文字即可，不需要实现登录功能，需要和导航栏有一定间距）
+
+参考的 HTML 结构如下：
+
+```html
+<header>
+  <div class="left">
+    <h1>Layout Demo</h1>
+  </div>
+  <div class="right">
+    <nav>
+      <ul>
+        <li><a href="/home.html">Home</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/products.html">Products</a></li>
+      </ul>
+    </nav>
+    <button>Login</button>
+  </div>
+</header>
+```
+
+这一部分的设计可以自由发挥，但需要保持文字风格统一及整体协调。
+
+#### 侧边栏
+
+侧边栏可以用来展示的信息相对多样，其应用场景包括：
+
+- 在内容较多的文档类网站上，侧边栏可用于展示导航信息
+  + 参考 [Ant.Design Docs](https://ant.design/components/overview-cn/)
+  + 参考 [Vue.js Docs](https://vuejs.org/guide/introduction.html)
+  + 参考 [ReadTheDocs](https://docs.readthedocs.io/en/stable/)
+- 个人首页中，侧边栏可用于展示头像、联系方式等信息
+  + 参考 [Satellite Theme](https://wordpress.com/theme/satellite)
+  + 参考 [Stewart Theme](https://wordpress.com/theme/stewart)
+
+在内容较少或设计性较强的网站上，侧边栏的使用会相对少一些，因此本 lab 中的侧边栏主要用于练习布局，
+实际写网页时并不一定需要包含此部分。
+
+侧边栏的内容主要参考为下图：
+
+<figure class="text-center">
+  <Image src={ImgSidebarExample} alt="侧边栏设计参考图" />
+  <figcaption>图2 - 侧边栏设计参考图，来源：[Ant.Design](https://ant.design/~demos/components-layout-demo-side)</figcaption>
+</figure>
+
+具体要求如下：
+
+- 侧边栏需要包含至少三个选项，分别为**总览**、**值班指南**和**报修指南**
+- 每个选项的左边需要有一个图标，图标的样式需要统一
+- **值班指南**和**报修指南**的右侧需要有一个下拉箭头，代表该项点击后可以折叠
+- 鼠标放在几个选项上时，背景颜色或文字需要有改变，鼠标的标识需要改变（参考 CSS 的 `cursor` 属性）
+- 侧边栏的宽度需要固定，不随页面宽度改变而改变
+
+完成该任务需要使用图标库，你可以从以下网站中找到想要的图标：
+
+- [HeroIcons](https://heroicons.com/)
+- [FontAwesome](https://fontawesome.com/v4/get-started/)
+- [Google Material Icons](https://fonts.google.com/icons)
+
+### 任务3 - 响应式设计
+
+在完成任务1和任务2后，你的页面应该已经可以在大部分设备上正常显示了。但是，当页面宽度变窄时，页面的布局可能会出现问题。
+
+响应式设计指的是根据用户的设备（如手机、平板、电脑）的屏幕尺寸，自动调整页面的布局，使页面在不同设备上都能正常显示。
+
+此任务的目标是使你的页面在不同设备上都能正常显示。具体要求如下：
+
+- 当页面宽度小于 768px 时，侧边栏应该被隐藏，页面的布局应该变为**无侧边栏**的布局
+- 当页面宽度小于 768px 时，页首右侧的导航栏和登录按钮应被隐藏，改用一个图标按钮代替
+
+完成该任务需要使用 CSS 的 `media query` 属性，建议在开始之前先阅读：
+
+- [MDN 媒体查询](https://developer.mozilla.org/zh-CN/docs/Learn/CSS/CSS_layout/Media_queries)
+- [CSS Tricks Media Query](https://css-tricks.com/a-complete-guide-to-css-media-queries/)：_Accessibility_ 及后续章节可以不用读
+
+## 提交 Lab
+
+本 Lab 支持很多提交方式，包括但不限于：
+
+- Github：提交 Github 项目链接即可
+- 压缩包（`zip`、`rar` 或其他常用格式）
+- 已部署的网站：提交网站链接即可
+
+建议发到 QQ 群里，如果不想让大家看到也可以直接私发给 🀄。

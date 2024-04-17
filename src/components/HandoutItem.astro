@@ -20,7 +20,7 @@ const { icon = 'mdi:rocket', title = 'Title', href = '', tags = [] } = Astro.pro
   class="handout-item flex cursor-pointer flex-col gap-4 bg-[var(--background)] !text-[var(--font-color)] !no-underline transition-transform visited:no-underline hover:translate-x-1 hover:translate-y-1"
   href={href}
 >
-  <Icon name={icon} />
+  <Icon name={icon || 'mdi:rocket'} />
   <div class="content">
     <div>
       <h3 class="inline-block">{title}</h3>

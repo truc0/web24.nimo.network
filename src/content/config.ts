@@ -24,6 +24,7 @@ const handout = defineCollection({
         description: z.string().optional(),
         chapter: reference('chapter'),
         tags: z.array(reference('tag')).optional(),
+        icon: z.string().optional(),
         thumbnail: z.string().optional(),
         draft: z.boolean().optional().default(false),
         // TODO: add avatar and author name later

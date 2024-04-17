@@ -34,7 +34,7 @@ const hasToc = remarkPluginFrontmatter.toc
         <Content />
       </div>
 
-      {hasToc && <div class="sticky top-10 flex-0 h-[50vh] hidden md:block">
+      {hasToc && <div class="sticky top-10 flex-0 h-[50vh] min-w-40 hidden md:block">
         <div class="min-w-40 rounded bg-purple-50 dark:bg-neutral-800 overflow-hidden">
           <TableOfContent headings={headings} />
         </div>

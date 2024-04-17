@@ -102,6 +102,7 @@ const tagCollection = await getCollection('tag')
         <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
           {handoutCollection.filter(item => item.data.chapter.id === chapter.id).map(handout => (
             <HandoutItem
+              icon={handout.data.icon}
               title={handout.data.title}
               thumbnail={handout.data.thumbnail}
               href={`/handouts/${chapterCollection.find(ch => ch.id === handout.data.chapter.id)!.data.slug}/${handout.slug}`}
