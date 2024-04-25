@@ -418,8 +418,8 @@ while (x == 0) {
 ```js
 // 判断字符串 `str` 中是否包含 `ch` 这个字符
 function contains(str, ch) {
-    // 在这里填代码
-    // 字符串的长度可以通过 str.length 获得
+  // 在这里填代码
+  // 字符串的长度可以通过 str.length 获得
 }
 ```
 
@@ -428,11 +428,11 @@ function contains(str, ch) {
 <div>
 
 ```js
-// 测试
-assert('hello', '1')
-assert('54745261', '1')
-assert('hell0', '0')
-assert('', 'H')
+// 测试，如果浏览器或 Node.js 中没有报错即为测试通过
+console.assert(!contains('hello', '1'))
+console.assert(contains('54745261', '1'))
+console.assert(contains('hell0', '0'))
+console.assert(!contains('', 'H'))
 ```
 
 </div>
@@ -510,7 +510,7 @@ function add(x, y = 0) { return x + y }
 // 变量可以是一个函数
 let add = function (x, y = 0) { return x + y }
 
-// 箭头函数：函数的简写
+// 箭头函数：函数的简写，以下两个函数的效果是相同的
 let add_arrow_1 = (x, y = 0) => { return x + y }
 let add_arrow_2 = (x, y = 0) => x + y
 ```
@@ -534,10 +534,10 @@ function createCounter() {
 ```js
 const count1 = createCounter()
 const count2 = createCounter()
-console.log(count1())
-console.log(count1())
-console.log(count1())
-console.log(count2())
+console.log(count1()) // 1
+console.log(count1()) // 2
+console.log(count1()) // 3
+console.log(count2()) // 1
 ```
 
 </div>
