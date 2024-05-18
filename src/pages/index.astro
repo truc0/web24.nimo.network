@@ -16,15 +16,15 @@ const schedules: [string, IScheduleItem[]][] = [
   [
     'Web 基础',
     [
-      { content: 'HTML & CSS 基础', time: 'April 3rd', note: '' },
-      { content: '网站部署实践', time: 'April 13th', note: '' },
+      { content: 'HTML & CSS 基础', time: 'April 3rd', note: '🟢' },
+      { content: '网站部署实践', time: 'April 13th', note: '🟢' },
     ],
   ],
   [
     'JS 前端框架',
     [
-      { content: 'Javascript 语法基础及 DOM 操作', time: 'April 24th', note: '电路期中 & 半马，时间有调整' },
-      { content: 'Vue.js 基础', time: 'April 27th', note: '春游，时间会调整' },
+      { content: 'Javascript 语法基础及 DOM 操作', time: 'April 24th', note: '🟢' },
+      { content: 'Vue.js 基础', time: 'May 18th', note: '👋好久不见！' },
     ],
   ],
   [
@@ -61,7 +61,7 @@ const tagCollection = await getCollection('tag')
           <tr>
             {
               ['章节', '内容', '时间', '备注'].map((item) => (
-                <th class="border-b p-4 lg:p-6 pb-3 font-bold dark:border-neutral-600">{item}</th>
+                <th class="border-b p-4 pb-3 font-bold dark:border-neutral-600 lg:p-6">{item}</th>
               ))
             }
           </tr>
@@ -97,22 +97,30 @@ const tagCollection = await getCollection('tag')
 
   <SectionContainer title="课程文档" id="handouts">
     <div>
-      {chapterCollection.map(chapter => (
-        <h3 class="text-5xl mb-8">{chapter.data.name}</h3>
-        <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
-          {handoutCollection.filter(item => item.data.chapter.id === chapter.id).map(handout => (
-            <HandoutItem
-              icon={handout.data.icon}
-              title={handout.data.title}
-              thumbnail={handout.data.thumbnail}
-              href={`/handouts/${chapterCollection.find(ch => ch.id === handout.data.chapter.id)!.data.slug}/${handout.slug}`}
-              tags={handout.data.tags?.map(item => tagCollection.find(tag => tag.id === item.id)) || []}
-            >
-            {handout.data.description}
-            </HandoutItem>
-          ))}
-        </div>
-      ))}
+      {
+        chapterCollection.map((chapter) => (
+          <>
+            <h3 class="mb-8 mt-14 text-5xl">{chapter.data.name}</h3>
+            <div class="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3">
+              {handoutCollection
+                .filter((item) => item.data.chapter.id === chapter.id)
+                .map((handout) => (
+                  <HandoutItem
+                    icon={handout.data.icon}
+                    title={handout.data.title}
+                    thumbnail={handout.data.thumbnail}
+                    href={`/handouts/${chapterCollection.find((ch) => ch.id === handout.data.chapter.id)!.data.slug}/${
+                      handout.slug
+                    }`}
+                    tags={handout.data.tags?.map((item) => tagCollection.find((tag) => tag.id === item.id)) || []}
+                  >
+                    {handout.data.description}
+                  </HandoutItem>
+                ))}
+            </div>
+          </>
+        ))
+      }
     </div>
   </SectionContainer>
 </DefaultLayout>

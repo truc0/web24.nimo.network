@@ -22,15 +22,20 @@ const { icon = 'mdi:rocket', title = 'Title', href = '', tags = [] } = Astro.pro
 >
   <Icon name={icon || 'mdi:rocket'} />
   <div class="content">
-    <div>
-      <h3 class="inline-block">{title}</h3>
-      <div class="tags ml-2 inline-block">
+    <div class="flex flex-wrap items-baseline gap-2">
+      <h3>{title}</h3>
+      <div class="tags">
         {
           tags.map((tag) => {
             const { color = 'cyan', name } = tag.data
             return (
               <span
-                class={`rounded border p-1 text-xs border-${color}-300 bg-${color}-50 text-${color}-700`}
+                class:list={[
+                  "rounded border p-1 text-xs",
+                  color === 'cyan' || 'border-cyan-300 bg-cyan-50 text-cyan-700',
+                  color === 'orange' || 'border-orange-300 bg-orange-50 text-orange-700',
+                  color === 'lime' || 'border-lime-300 bg-lime-50 text-lime-700',
+                ]}
               >{name}</span>
             )
           })
