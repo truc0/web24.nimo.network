@@ -34,13 +34,13 @@ CRUD 分别代表 **C**reate、**R**ead、**U**pdate 和 **D**elete
 
 # Ex01: 写一个 ToDo 管理程序
 
-- 建立四个函数 `create`、`all`、 `get`、`update`、`delete`
+- 建立四个函数 `create`、`index`、 `detail`、`update`、`delete`
 - 维护一个 ToDo 列表，支持用户创建、查询、更新、删除 ToDo
 - ToDo 中包含 `pk`、`title`、`content`、`category` 四个字段，分别对应 id、标题、内容和类别
 - 你可以使用自己喜欢的方式创建 ToDo
 - `create` 函数能够创建一个新 Todo 并加入 ToDo 列表
-- `all` 函数以列表形式返回当前所有 ToDo
-- `get` 函数接受一个参数 `pk` (Primary Key)，返回对应 `pk` 的 ToDo
+- `index` 函数以列表形式返回当前所有 ToDo
+- `detail` 函数接受一个参数 `pk` (Primary Key)，返回对应 `pk` 的 ToDo
 - `update` 函数接受两个参数 `pk` 和 `update_todo`，更新对应 `pk` 的 ToDo
 - `delete` 函数接受一个参数 `pk`，从列表中删除这个 ToDo
 
