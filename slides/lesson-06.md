@@ -21,7 +21,6 @@ background: 'https://source.unsplash.com/random/1080x720'
 <br />
 
 <div class="w-full h-84" flex items-center justify-center>
-  <img class="h-84 aspect-video object-cover" src="/slides/lesson-06/preview.png" />
 </div>
 
 ---
