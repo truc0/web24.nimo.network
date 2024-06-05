@@ -10,194 +10,253 @@ background: 'https://source.unsplash.com/random/1080x720'
 
 # Intro to Web Dev
 
-造一个周边商店
+数据库设计 & Django Rest Framework
 
 ---
 
-# 周边商店项目简介
+# 前后端分离和 RESTful API
 
-> 设计图参考：https://v0.dev/r/VT1ooZI0UVX
+- 前后端分离指前端作为一个独立于后端的模块存在，而不是使用模板语言等工具和后端强绑定
+    + 动态加载数据的需求增加
+    + 前端的代码量++++
+- 前端作为一个独立项目，需要一种方法跟后端 “交流”
+    + 分离前：在模板语言中直接传参
+    + 分离后：通过在浏览器发起 HTTP 请求获得数据
 
-<br />
-
-<div class="w-full h-84" flex items-center justify-center>
-</div>
+- RESTful API 是其中一种 API 设计规范，也是目前常用的规范
+    + 约定 CRUD 操作的请求方式
 
 ---
 
-# 周边商店项目简介
+# RESTful API & CRUD
 
-> 周边商店是什么？我们怎么做？
-
-<br />
-
-#### 项目的需求
-
-- 商品概览页面（标题、价格、“添加到购物车”按钮）
-- 购物车页面（显示已添加的商品、结账按钮）
-- 用户登录页面（允许登录/注销）
+> 来开周边商品店
 
 <br>
 
-#### 技术栈的选择
-
-- [vue.js](https://cn.vuejs.org/)
-  + [Pinia](https://pinia.vuejs.org/zh/) - 全局状态管理
-  + [Vue Router](https://router.vuejs.org/) - 路由管理
-- [tailwind.css](https://tailwindcss.com/) - CSS 框架
-- [Django](https://www.djangoproject.com/) 及 [Django Rest Framework](https://www.django-rest-framework.org/)
-
----
-
-# 周边商店项目简介
-
-> 项目开发规划及周期
-
-<br />
-
-#### 前端
-
-- 实现商品概览页（今晚）
-- 实现购物车页面（今晚）
-- 用户登录页面（作业）
-- 订单管理页面（可选）
-
-<br />
-
-#### 后端
-
-- 用户登录（下周） 
-- 购物车管理（下周）
-- 商品管理（下周）
-- 订单管理（可选）
+- CRUD（增删改查）的对象在 RESTful API 中被称为 Resource（资源）
+- 以商品（product）为例，常见的 URL 如下：
+    + `GET /products` 获取商品列表
+    + `GET /products/156` 获取 id 为 156 的商品
+    + `POST /products` 创建新的商品
+    + `PUT /products/156` 修改 id 为 156 的商品
+    + `DELETE /products/156` 删除 id 为 156 的商品
+- `GET`、`POST`、`PUT`、`DELETE` 是常见的 HTTP 方法（method）
 
 ---
 
-# 前端实现（详细版）
+# 什么是 Django Rest Framework？为什么要用它？
 
-1. 实现商品概览页
-    + 使用纯 HTML、CSS 实现，复习网页基本结构
-    + 网页基本布局（上中下）
-    + 实现 header 及 footer
-    + 实现商品展示卡片
-2. 将商品概览页迁移到 Vue
-3. 实现商品概览页的 “添加到购物车” 功能
-    + 使用 `localStorage` 实现数据保存
-4. 实现购物车页面
-    + 完成 “这个页面空空如也”
-    + 使用 `pinia` 实现全局状态管理
+> Django Rest Framework 可以帮助我们在 Django 上快速完成 RESTful API 的开发
 
----
+<br>
 
-# 项目设置（临时）
+#### 安装 Django Rest Framework (DRF)
 
-#### 1. 安装 `pnpm`（可选）
-
-`pnpm` 是一个快速、高效的包管理器，能够替代 `npm`
+> 参考：https://www.django-rest-framework.org/#installation
 
 ```bash
-# 参考：https://pnpm.io/installation#using-npm
-npm install -g pnpm
+pip install djangorestframework
+pip install django-filter
+pip install django-cors-headers
 ```
 
-<br>
+编辑两个文件：
 
-#### 2. 使用 Vite 新建临时项目
+```python
+# hydrogen/settings.py
+INSTALLED_APPS = [
+    ...
+    'rest_framework',
+]
+# hydrogen/urls.py
+urlpatterns = [
+    ...
+    path('api-auth/', include('rest_framework.urls'))
+]
+```
 
-`vite` 能够监控 `.css`、`.html` 等文件的变更，并实时更新页面，能提供更好的开发体验
+---
+
+# 周边商店 Step 01：新建一个 Django App
+
+1. 新建一个 Django App
 
 ```bash
-# 参考：https://cn.vitejs.dev/guide/#scaffolding-your-first-vite-project
-pnpm create vite nimostore
+python manage.py startapp nimostore
 ```
 
-<br>
+2. 定义 Model
 
-#### 3. 使用 VSCode 打开项目
+```python
+# nimostore/models.py
+from django.db import Models
 
-找到刚刚新建的 `nimostore` 文件夹，然后用 `vscode` 打开
-
----
-
-# 项目设置（临时） - Style Reset
-
-#### 4. 安装 Tailwind.css
-
-Tailwind.css 是一个 utility first 的框架，将很多常用的 CSS 设置封装了成 `class`，使得开发者可以直接写 `class` 而不需要单独写 CSS 文件。
-
-本项目中仅使用 Tailwind 提供的 Style Reset。
-
-```bash
-# 参考：https://tailwindcss.com/docs/installation/using-postcss
-pnpm install -D tailwindcss postcss autoprefixer
-pnpx tailwindcss init
+class Product(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.IntegerField()
 ```
 
-在项目根目录新建一个 `postcss.config.js` 文件，输入以下内容：
+3. 加入 Admin Panel
 
-```js
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  }
-}
+```python
+# nimostore/admin.py
+from django.contrib import admin
+from .models import Product
+
+admin.site.register(Product)
 ```
 
 ---
 
-# 项目设置（临时） - Style Reset
+# 周边商店 Step 02：年轻人的第一个 API
 
-#### 4. 安装 Tailwind.css
+1. 定义一个新的 Serializer
 
-修改 `tailwind.config.js` 文件：
+> Serializer 可用于验证用户输入、指定用户输出
 
-```js
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: ["./src/**/*.{html,js}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+```python
+# 新建 nimostore/serializers.py
+from rest_framework import serializers
+from .models import Product
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id', 'name', 'description', 'price']
 ```
 
-修改 `style.css` 文件：
+2. 定义一个视图函数（View）
 
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+```python
+# nimostore/views.py
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Product
+from .serializers import ProductSerializer
+@api_view(['GET'])
+def product_list(request):
+    products = Product.objects.all()
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
 ```
 
 ---
 
-# 项目设置（Vue）
+# 周边商店 Step 02：年轻人的第一个 API
 
-> 迁移商品概览页
+3. 加入路由规则
 
-<br>
+```python
+# 新建 nimostore/urls.py
+from django.urls import path
+from .views import product_list
+urlpatterns = [
+  path('', views.product_list),
+]
 
-#### 参照下列教程完成项目设置：
+# 编辑 hydrogen/urls.py
+urlpatterns = [
+  ...
+  path('products/', views.product_list),
+]
+```
 
-1. [创建新的 Vue 项目](https://cn.vuejs.org/guide/quick-start.html#creating-a-vue-application)
-2. [在 Vue 项目中加入 TailwindCSS 的支持](https://tailwindcss.com/docs/guides/vite#vue)
+4. 在管理后台加入一些产品，然后访问 `http://127.0.0.1:8000/products` 看看效果
 
-<br>
+---
 
-#### 迁移
+# 周边商店 Step 03：年轻人的第二个 API
 
-1. 将刚刚写好的 HTML 移动到 `index.html` 中
-2. 将刚刚写好的 `style.css` 复制到 `src/style.css`
-3. 在 `src/main.js` 文件最前面加入 `import 'style.css'` 一行
+1. 通过 API 新增一个 Product
 
-<br>
+```python
+# 编辑 nimostore/views.py
+from rest_framework import status
+@api_view(['GET', 'POST'])
+def product_list(request):
+    if request.method == 'GET':
+        ...
+    elif request.method == 'POST':
+        serializer = ProductSerialier(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+```
 
-#### 迁移组件
+2. 在浏览器中发送 `POST` 请求到 `/products`看看效果
 
-1. 将 `index.html` 中的内容和 `style.css` 中的样式迁移到 `src/App.vue` 组件中
-2. 将商品卡片迁移到独立组件（`src/components/GoodCard.vue`）中
+---
+
+# 周边商店 Step 04：Class-based Views
+
+1. 修改视图函数
+
+```python
+# 修改 nimostore/views.py
+from django.http import Http404
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Product
+from .serializers import ProductSerializer
+
+class ProductList(APIView):
+    def get(self, request, format=None):
+        products = Product.objects.all()
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    def post(self, request, format=None):
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+```
+
+---
+
+# 周边商店 Step 04：Class-based Views
+
+2. 修改 `urls.py`
+
+```python
+# 修改 nimostore/urls.py
+from django.urls import path
+from rest_framework.urlpatterns import format_suffix_patterns
+from .views import ProductList
+
+urlpatterns = [
+    path('', ProductList.as_view()),
+]
+
+urlpatterns = format_suffix_patterns(urlpatterns)
+```
+
+---
+
+# 周边商店 Step 04: Class-based Views
+
+3. 进一步简化视图函数
+
+```python
+# 修改 nimostore/views.py
+from rest_framework import mixins
+from rest_framework import generics
+...
+class ProductList(mixins.ListModelMixin,
+                  mixins.CreateModelMixin,
+                  generics.GenericAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get(self, request, *args, **kwargs):
+    return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+```
 
 ---
 layout: section
